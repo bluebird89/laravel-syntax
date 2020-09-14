@@ -8,5 +8,13 @@
 @endsection
 
 @section('content')
+    The current UNIX timestamp is {{ time() }}.
+    Hello, {!! $name !!}.
     <p>这里是主体内容，完善中...</p>
+    @{{ $name }}
 @endsection
+
+<script>
+    var app = @json($countries, JSON_PRETTY_PRINT);
+    console.log(app);
+</script>

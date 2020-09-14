@@ -58,6 +58,10 @@ Route::resource('posts', \App\Http\Controllers\PostController::class, [
 ]);
 
 Route::view('layout', 'child');
+Route::view('layout/blade', 'child_blade', [
+    'name' => 'henry',
+    'countries' => ['China', 'Japan', 'Korea']
+    ]);
 
 // event example
 Route::get('event/test', 'OrderController@ship');
