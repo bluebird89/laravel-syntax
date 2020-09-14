@@ -46,3 +46,17 @@ php artisan route:cache|clear
 ```
 php artisan make:component Alert
 ```
+
+## test
+
+```
+php artisan test
+php artisan test --group=feature --stop-on-failure
+
+php artisan make:factory PostFactory --model=Post
+```
+
+## auth
+
+* Auth::check()
+* 路由中间件可用于只允许通过认证的用户访问给定路由
