@@ -20,10 +20,10 @@ class UserController extends Controller
      * @param  UserRepository  $users
      * @return void
      */
-    public function __construct(UserRepository $users)
-    {
-        $this->users = $users;
-    }
+//    public function __construct(UserRepository $users)
+//    {
+//        $this->users = $users;
+//    }
 
     /**
      * Show the profile for the given user.

@@ -1,5 +1,7 @@
 ## Laravel Syntax
 
+* front render and back render
+
 ```
 composer global require laravel/installer
 laravel new blog
@@ -17,4 +19,14 @@ php artisan ui vue
 
 npm install
 npm run watch
+```
+
+
+## migrate
+
+```
+php artisan migrate
+php artisan make:seeder UsersTableSeeder # DatabaseSeeder  call
+
+php artisan db:seed
 ```

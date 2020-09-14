@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\UserController;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,16 +20,33 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('user/{id}', 'UserController@show');
-
 Route::get('hello', function () {
     return 'Hello Laravel!';
+});
+
+Route::get('/user', [UserController::class, 'index']);
+Route::view('/welcome', 'welcome', ['name' => '学院君']);
+Route::get('user/{id}', function ($id) {
+    return 'User ' . $id;
+});
+Route::get('user/{name?}', function ($name = 'John') {
+    return $name;
+})->where('name', '[A-Za-z]+');
+Route::get('user/{id}', 'UserController@show')->where('id', '[0-9]+');
+Route::get('user/profile', function () {
+    return 'my url: ' . route('profile');
+})->name('profile');
+Route::get('redirect', function() {
+    return redirect()->route('profile');
+});
+Route::get('api/users/{user}/posts/{post:slug}', function (User $user, Post $post) {
+    return $post;
 });
 
 // event example
 Route::get('event/test', 'OrderController@ship');
 Route::get('event', function () {
-    $user = \Kidsit\User::first();
+    $user = User::first();
     \Event::fire('user.login', $user);
     var_dump('fired');
 });
