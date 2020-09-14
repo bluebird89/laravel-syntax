@@ -23,5 +23,4 @@ class OrderController extends Controller
         // 订单的发货逻辑...
         event(new OrderShipped($order));
     }
-
 }

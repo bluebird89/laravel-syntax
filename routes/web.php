@@ -16,3 +16,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('user/{id}', 'UserController@show');
+
+Route::get('hello', function () {
+    return 'Hello Laravel!';
+});
+
+// event example
+Route::get('event/test', 'OrderController@ship');
+Route::get('event', function () {
+    $user = \Kidsit\User::first();
+    \Event::fire('user.login', $user);
+    var_dump('fired');
+});
