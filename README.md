@@ -42,3 +42,7 @@ php artisan make:controller PostController --resource --model=Post
 ```
 php artisan route:cache|clear
 ```
+
+```
+php artisan make:component Alert
+```

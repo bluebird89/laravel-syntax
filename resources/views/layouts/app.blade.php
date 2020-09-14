@@ -4,12 +4,21 @@
 </head>
 <body>
 
-@section('sidebar')
-    这里是侧边栏
+@section('header')
+    这里是header栏
+@show
+
+@section('siderbar')
+    Sidebar
 @show
 
 <div class="container">
     @yield('content')
 </div>
+
+@section('Footer')
+    Foooter
+@show
+
 </body>
 </html>
