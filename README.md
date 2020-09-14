@@ -30,3 +30,15 @@ php artisan make:seeder UsersTableSeeder # DatabaseSeeder  call
 
 php artisan db:seed
 ```
+
+## controller 
+
+```
+php artisan make:controller PostController --resource --model=Post
+```
+
+## router
+
+```
+php artisan route:cache|clear
+```

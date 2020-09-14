@@ -26,22 +26,36 @@ Route::get('hello', function () {
 
 Route::get('/user', [UserController::class, 'index']);
 Route::view('/welcome', 'welcome', ['name' => '学院君']);
-Route::get('user/{id}', function ($id) {
-    return 'User ' . $id;
-});
+
+//Route::get('user/{id}', function ($id) {
+//    return 'User ' . $id;
+//});
+
 Route::get('user/{name?}', function ($name = 'John') {
     return $name;
 })->where('name', '[A-Za-z]+');
-Route::get('user/{id}', 'UserController@show')->where('id', '[0-9]+');
+
+// 隐式模型绑定
+Route::get('user/{user}', [UserController::class, 'show']);
+Route::get('user/{user}', \App\Http\Controllers\ShowProfile::class);
+//Route::get('user/{id}', 'UserController@show')->where('id', '[0-9]+');
+
 Route::get('user/profile', function () {
-    return 'my url: ' . route('profile');
+    return 'my url: '.route('profile');
 })->name('profile');
-Route::get('redirect', function() {
+Route::get('redirect', function () {
     return redirect()->route('profile');
 });
 Route::get('api/users/{user}/posts/{post:slug}', function (User $user, Post $post) {
     return $post;
 });
+
+Route::resource('posts', \App\Http\Controllers\PostController::class, [
+    'only' =>
+        ['index', 'show']
+    , 'except' =>
+        ['create', 'store', 'update', 'destroy']
+]);
 
 // event example
 Route::get('event/test', 'OrderController@ship');

@@ -2,38 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\UserRepository;
-use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
     /**
-     * The user repository implementation.
-     *
-     * @var UserRepository
-     */
-    protected $users;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @param  UserRepository  $users
-     * @return void
-     */
-//    public function __construct(UserRepository $users)
-//    {
-//        $this->users = $users;
-//    }
-
-    /**
      * Show the profile for the given user.
      *
-     * @param  int  $id
-     * @return Response
+     * @param  User  $user
+     *
+     * @return View
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = $this->users->find($id);
+        Log::info('Showing user profile for user: '.$id);
         return view('user.profile', ['user' => $user]);
     }
 }
