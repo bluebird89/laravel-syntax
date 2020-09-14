@@ -57,6 +57,8 @@ Route::resource('posts', \App\Http\Controllers\PostController::class, [
         ['create', 'store', 'update', 'destroy']
 ]);
 
+Route::view('layout', 'child');
+
 // event example
 Route::get('event/test', 'OrderController@ship');
 Route::get('event', function () {
@@ -64,3 +66,7 @@ Route::get('event', function () {
     \Event::fire('user.login', $user);
     var_dump('fired');
 });
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
