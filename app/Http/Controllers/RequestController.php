@@ -2,26 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SubmitFormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class RequestController extends Controller
 {
-    public function form(Request $request)
+    public function form(SubmitFormRequest $request)
     {
-        // TODO:picture validator failed
-        $request->validate([
-            'title' => 'bail|required|string|between:2,32',
-            'url' => 'sometimes|url|max:200',
-            'picture' => 'Nullable|string'
-        ], [
-            'title.required' => '标题字段不能为空',
-            'title.string' => '标题字段仅支持字符串',
-            'title.between' => '标题长度必须介于2-32之间',
-            'url.url' => 'URL格式不正确，请输入有效的URL',
-            'url.max' => 'URL长度不能超过200',
-        ]);
-
         return response('表单验证通过');
 
 //        $request->all();
