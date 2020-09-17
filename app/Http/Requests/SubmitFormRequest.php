@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\SensitiveWordRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SubmitFormRequest extends FormRequest
@@ -16,6 +17,15 @@ class SubmitFormRequest extends FormRequest
         return true;
     }
 
+    public function attributes()
+    {
+        return [
+            'title' => '标题',
+            'url' => 'URL',
+            'picture' => '图片'
+        ];
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,7 +35,13 @@ class SubmitFormRequest extends FormRequest
     {
         // TODO: field picture validator failed
         return [
-            'title' => 'bail|required|string|between:2,32',
+            'title' =>  [
+                'bail',
+                'required',
+                'string',
+                'between:2,32',
+                new SensitiveWordRule()
+            ],
             'url' => 'sometimes|url|max:200',
             'picture' => 'nullable|string'
         ];
