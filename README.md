@@ -60,3 +60,7 @@ php artisan make:factory PostFactory --model=Post
 
 * Auth::check()
 * 路由中间件可用于只允许通过认证的用户访问给定路由
+
+## 参考
+
+* [https://xueyuanjun.com/books/laravel-tutorial](https://xueyuanjun.com/books/laravel-tutorial)

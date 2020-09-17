@@ -17,7 +17,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $id =0;
         Log::info('Showing user profile for user: '.$id);
+
         return view('user.profile', ['user' => $user]);
     }
 }
