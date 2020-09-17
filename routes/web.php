@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('hello', function () {
     return 'Hello Laravel!';
 });
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 

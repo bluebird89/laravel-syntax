@@ -545,8 +545,10 @@
             </div>
 
             <div>
+                <welcome-component></welcome-component>
+
                 <!-- 引入 hello-component 组件进行渲染 -->
-                <hello-component>你好，VUE！</hello-component>
+                <hello-component>你好，VUE！!!</hello-component>
 
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
@@ -572,6 +574,6 @@
     </div>
 </div>
 
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/app_1.js') }}"></script>
 </body>
 </html>
