@@ -148,6 +148,13 @@ Route::get('form', [RequestController::class, 'formPage']);
 Route::post('form/file_upload', [RequestController::class, 'fileUpload']);
 Route::post('form', [RequestController::class, 'form'])->name('form.submit');
 
+Route::get('test_artisan', function () {
+    $exitCode = Artisan::call('welcome:message', [
+        'name' => '学院君',
+        '--city' => '杭州'
+    ]);
+});
+
 // event example
 Route::get('event/test', [OrderController::class, 'ship']);
 Route::get('event', function () {
