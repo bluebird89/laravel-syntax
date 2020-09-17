@@ -98,10 +98,10 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-// 隐式模型绑定
 Route::get('user/{user}', [UserController::class, 'show']);
 Route::get('user/{user}', \App\Http\Controllers\ShowProfile::class);
 
+// 隐式模型绑定
 Route::get('api/users/{user}', function (User $user) {
     return $user->email;
 });
@@ -129,6 +129,19 @@ Route::middleware('throttle:60,1')->group(function () {
 Route::fallback(function () {
     return '我是最后的屏障';
 });
+
+Route::get('/task', 'TaskController@hindex');
+Route::get('task/create', 'TaskController@create');
+Route::post('task', 'TaskController@store');
+Route::get('task/{id}/delete', function ($id) {
+    return '<form method="post" action="' . route('task.delete', [$id]) . '">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit">删除任务</button>
+            </form>';
+});
+Route::delete('task/{id}', function ($id) {
+    return 'Delete Task ' . $id;
+})->name('task.delete');
 
 // event example
 Route::get('event/test', 'OrderController@ship');
