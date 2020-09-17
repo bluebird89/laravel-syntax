@@ -146,6 +146,7 @@ Route::delete('task/{id}', function ($id) {
 Route::get('form/{id}', [RequestController::class, 'form']);
 Route::get('form', [RequestController::class, 'formPage']);
 Route::post('form/file_upload', [RequestController::class, 'fileUpload']);
+Route::post('form', [RequestController::class, 'form'])->name('form.submit');
 
 // event example
 Route::get('event/test', [OrderController::class, 'ship']);

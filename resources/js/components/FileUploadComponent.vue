@@ -28,6 +28,11 @@ export default {
                 $('#picture-path').val(response.data.path);
                 $('#picture-preview').html('<img src="' + response.data.path + '">')
             }).catch(function (error) {
+                if (error.response.status === 422) {
+                    $.each(error.response.data.errors, function (field, errors) {
+                        $('#picture-preview').append('<div class="alert alert-danger">' + errors[0] + '</div>');
+                    });
+                }
                 console.log(error);
             });
         }
