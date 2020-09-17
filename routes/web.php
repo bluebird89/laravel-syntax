@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\RequestController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Models\Post;
 use App\Models\User;
@@ -19,12 +21,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('hello', function () {
     return 'Hello Laravel!';
 });
-Route::get('/welcome', function () {
+Route::get('welcome', function () {
     return view('welcome');
 });
 
-Route::get('/user', 'UsersController@index');
-//Route::get('/user', [UserController::class, 'index']);
+//  version < 8
+//Route::get('/user', 'UsersController@index');
+// version 8
+Route::get('/user', [UserController::class, 'index']);
+Route::get('user/{user}', [UserController::class, 'show']);
 
 # method
 //Route::get($uri, $callback);
@@ -44,7 +49,7 @@ Route::any('foo', function () {
 //Route::get('user/{id}', function ($id) {
 //    return 'User ' . $id;
 //});
-//Route::get('user/{id}', 'UserController@show')->where('id', '[0-9]+');
+Route::get('user/{id}', [UserController::class, 'show'])->where('id', '[0-9]+');
 Route::get('page/{id}/{slug}', function ($id, $slug) {
     return $id . ':' . $slug;
 })->where(['id' => '[0-9]+', 'slug' => '[A-Za-z]+']);
@@ -70,7 +75,7 @@ Route::get('api/users/{user}/posts/{post:slug}', function (User $user, Post $pos
 });
 
 ## 路由命名 <a href="{{ route('user.profile', ['id' => 100]) }}">  // 输出：http://blog.test/user/100
-Route::get('user/profile', 'UserController@showProfile')->name('user.profile');
+Route::get('user/profile', [UserController::class, 'profile'])->name('user.profile');
 
 # Group + middleware
 //Route::middleware(['first', 'second'])->group(function () {
@@ -98,7 +103,6 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-Route::get('user/{user}', [UserController::class, 'show']);
 Route::get('user/{user}', \App\Http\Controllers\ShowProfile::class);
 
 // 隐式模型绑定
@@ -126,13 +130,9 @@ Route::middleware('throttle:60,1')->group(function () {
     });
 });
 
-Route::fallback(function () {
-    return '我是最后的屏障';
-});
-
-Route::get('/task', 'TaskController@hindex');
-Route::get('task/create', 'TaskController@create');
-Route::post('task', 'TaskController@store');
+Route::get('/task', [TaskController::class, 'index']);
+Route::get('task/create', [TaskController::class, 'reate']);
+Route::post('task', [TaskController::class, 'store']);
 Route::get('task/{id}/delete', function ($id) {
     return '<form method="post" action="' . route('task.delete', [$id]) . '">
                 <input type="hidden" name="_method" value="DELETE">
@@ -143,8 +143,10 @@ Route::delete('task/{id}', function ($id) {
     return 'Delete Task ' . $id;
 })->name('task.delete');
 
+Route::get('form/{id}', [RequestController::class, 'form']);
+
 // event example
-Route::get('event/test', 'OrderController@ship');
+Route::get('event/test', [OrderController::class, 'ship']);
 Route::get('event', function () {
     $user = User::first();
     \Event::fire('user.login', $user);
@@ -154,3 +156,7 @@ Route::get('event', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia\Inertia::render('Dashboard');
 })->name('dashboard');
+
+Route::fallback(function () {
+    return '我是最后的屏障';
+});
