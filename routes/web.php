@@ -51,7 +51,7 @@ Route::any('foo', function () {
 //});
 Route::get('user/{id}', [UserController::class, 'show'])->where('id', '[0-9]+');
 Route::get('page/{id}/{slug}', function ($id, $slug) {
-    return $id . ':' . $slug;
+    return $id.':'.$slug;
 })->where(['id' => '[0-9]+', 'slug' => '[A-Za-z]+']);
 Route::get('user/{name?}', function ($name = 'John') {
     return $name;
@@ -134,16 +134,18 @@ Route::get('/task', [TaskController::class, 'index']);
 Route::get('task/create', [TaskController::class, 'reate']);
 Route::post('task', [TaskController::class, 'store']);
 Route::get('task/{id}/delete', function ($id) {
-    return '<form method="post" action="' . route('task.delete', [$id]) . '">
+    return '<form method="post" action="'.route('task.delete', [$id]).'">
                 <input type="hidden" name="_method" value="DELETE">
                 <button type="submit">删除任务</button>
             </form>';
 });
 Route::delete('task/{id}', function ($id) {
-    return 'Delete Task ' . $id;
+    return 'Delete Task '.$id;
 })->name('task.delete');
 
 Route::get('form/{id}', [RequestController::class, 'form']);
+Route::get('form', [RequestController::class, 'formPage']);
+Route::post('form/file_upload', [RequestController::class, 'fileUpload']);
 
 // event example
 Route::get('event/test', [OrderController::class, 'ship']);

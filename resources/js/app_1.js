@@ -22,6 +22,7 @@ window.Vue = require('vue');
 Vue.component('hello-component', require('./components/HelloComponent.vue').default);
 Vue.component('modal-component', require('./components/ModalComponent.vue').default);
 Vue.component('welcome-component', require('./components/WelcomeComponent.vue').default);
+Vue.component('fileupload-component', require('./components/FileUploadComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
