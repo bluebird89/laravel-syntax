@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
@@ -154,6 +155,8 @@ Route::get('test_artisan', function () {
         '--city' => '杭州'
     ]);
 });
+
+Route::get('post', [\App\Http\Controllers\PostController::class, 'index']);
 
 // event example
 Route::get('event/test', [OrderController::class, 'ship']);

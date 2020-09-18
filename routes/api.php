@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,5 @@ Route::get('/languages', function () {
         return $obj;
     });
 });
+
+Route::get('/posts/fetch', [PostController::class, 'fetch']);

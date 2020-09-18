@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\UrlWindow;
 
 class PostController extends Controller
 {
@@ -14,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return view('post.index');
     }
 
     /**
@@ -81,5 +82,24 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    public function fetch()
+    {
+        // 每页显示6篇文章，如果页码太多，当前页码左右只显示2个页码
+        $posts = Post::paginate(6)->onEachSide(2)->withPath(url('post'));
+        // 处理页码及对应分页URL（页码过多，部分页码省略）
+        $window = UrlWindow::make($posts);
+        $pages = array_filter([
+            $window['first'],
+            is_array($window['slider']) ? '...' : null,
+            $window['slider'],
+            is_array($window['last']) ? '...' : null,
+            $window['last'],
+        ]);
+        return response()->json([
+            'paginator' => $posts,
+            'elements' => $pages
+        ]);
     }
 }

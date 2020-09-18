@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Faker\Generator;
 use Illuminate\Container\Container;
 use Illuminate\Database\Seeder;
@@ -19,13 +20,15 @@ class UsersTableSeeder extends Seeder
     {
         $faker = $this->withFaker();
         // 插入一条记录到 users 表，通过 Faker 模拟字段值
-        DB::table('users')->insert([
-            'name' => $faker->name,
-            'email' => $faker->unique()->safeEmail,
-            'email_verified_at' => now(),
-            'password' => bcrypt('secret'),
-            'remember_token' => Str::random(10)
-        ]);
+//        DB::table('users')->insert([
+//            'name' => $faker->name,
+//            'email' => $faker->unique()->safeEmail,
+//            'email_verified_at' => now(),
+//            'password' => bcrypt('secret'),
+//            'remember_token' => Str::random(10)
+//        ]);
+
+        User::factory(10)->create();
     }
 
     /**
