@@ -15,6 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
+//        $articles = Article::with('author', 'category')->public()->orderBy('id', 'desc')->seoPaginate($pageSize, $this->listColumns, 'page', $page);
         return view('post.index');
     }
 
