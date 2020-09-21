@@ -87,10 +87,10 @@ Route::get('user/profile', [UserController::class, 'profile'])->name('user.profi
 //});
 
 // 子命名空间
-Route::namespace('Admin')->group(function () {
-    // App\Http\Controllers\Admin\AdminController
-    Route::get('/admin', 'AdminController@index');
-});
+//Route::namespace('Admin')->group(function () {
+//    // App\Http\Controllers\Admin\AdminController
+//    Route::get('/admin', 'AdminController@index');
+//});
 // 子域名路由 默认的命名空间是 App\Http\Controllers
 Route::domain('{account}.myapp.com')->group(function () {
     Route::get('user/{id}', function ($account, $id) {
