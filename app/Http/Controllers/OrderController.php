@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\OrderShipped;
 use App\Models\Order;
+use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
@@ -15,12 +16,10 @@ class OrderController extends Controller
      *
      * @return Response
      */
-    public function ship()
+    public function ship($orderId)
     {
-//        $order = Order::findOrFail($orderId);
+        $order = Order::findOrFail($orderId);
 
-        $order = new Order();
-        // 订单的发货逻辑...
         event(new OrderShipped($order));
     }
 }

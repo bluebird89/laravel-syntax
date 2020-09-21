@@ -25,7 +25,7 @@ class UserEventListener
      *
      * @param  Illuminate\Events\Dispatcher  $events
      *
-     * @return array
+     * @return void
      */
     public function subscribe($events)
     {

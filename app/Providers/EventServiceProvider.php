@@ -5,7 +5,6 @@ namespace App\Providers;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -20,7 +19,18 @@ class EventServiceProvider extends ServiceProvider
         ],
         'Illuminate\Auth\Events\Verified' => [
             'App\Listeners\LogVerifiedUser',
-        ],
+        ], 'App\Events\OrderShipped' => [
+            'App\Listeners\SendShipmentNotification',
+        ]
+    ];
+
+    /**
+     * 要注册的订阅者类.
+     *
+     * @var array
+     */
+    protected $subscribe = [
+        'App\Listeners\UserEventSubscriber',
     ];
 
     /**

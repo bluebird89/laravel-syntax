@@ -7,14 +7,15 @@ use Illuminate\Queue\SerializesModels;
 
 class OrderShipped
 {
-    use SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $order;
 
     /**
-     * 创建一个事件实例。
+     * 创建新的事件实例
      *
-     * @param  Order  $order
+     * @param  \App\Models\Order  $order
+     * @return void
      */
     public function __construct(Order $order)
     {
