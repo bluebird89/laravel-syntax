@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\Post;
 use App\Models\Team;
+use App\Policies\PostPolicy;
 use App\Policies\TeamPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -15,7 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Team::class => TeamPolicy::class,
+        Team::class => TeamPolicy::class, Post::class => PostPolicy::class,
     ];
 
     /**
@@ -32,12 +35,14 @@ class AuthServiceProvider extends ServiceProvider
 //            return new JwtGuard(Auth::createUserProvider($config['provider']));
 //        });
 
-//        Gate::define('edit-settings', function ($user) {
-//            return $user->isAdmin;
-//        });
-//
-//        Gate::define('update-post', function ($user, $post) {
-//            return $user->id === $post->user_id;
-//        });
+        Gate::define('edit-settings', function ($user) {
+            return $user->isAdmin;
+        });
+
+        Gate::define('update-post', function ($user, $post) {
+            return $user->id === $post->user_id;
+        });
+
+        Gate::define('update-post', [PostPolicy::class, 'update']);
     }
 }
