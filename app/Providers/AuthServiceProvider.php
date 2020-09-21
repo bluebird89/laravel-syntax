@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Team;
 use App\Policies\TeamPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,11 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+//        Auth::extend('jwt', function($app, $name, array $config) {
+//            // 返回一个Illuminate\Contracts\Auth\Guard实例...
+//            return new JwtGuard(Auth::createUserProvider($config['provider']));
+//        });
 
 //        Gate::define('edit-settings', function ($user) {
 //            return $user->isAdmin;
