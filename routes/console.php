@@ -19,6 +19,10 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
+Artisan::command('build {project}', function ($project) {
+    $this->info("Building {$project}!");
+})->describe('Build the project');
+
 Artisan::command('question', function () {
     $name = $this->ask('What is your name?');
 
