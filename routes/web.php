@@ -118,6 +118,10 @@ Route::get('redirect', function () {
     return redirect()->route('profile');
 });
 
+Route::get('profile', function () {
+    // Only verified users may enter...
+})->middleware('verified');
+
 Route::resource('posts', \App\Http\Controllers\PostController::class, [
     'only' =>
         ['index', 'show']
