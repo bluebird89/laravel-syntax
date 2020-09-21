@@ -6,6 +6,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -159,6 +160,7 @@ Route::get('test_artisan', function () {
         '--city' => '杭州'
     ]);
 });
+
 
 Route::get('post', [\App\Http\Controllers\PostController::class, 'index']);
 
