@@ -51702,7 +51702,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/henry/Workspace/laravel_syntax/resources/js/app_1.js */"./resources/js/app_1.js");
+module.exports = __webpack_require__(/*! /Users/henry/Workspace/www/laravel-syntax/resources/js/app_1.js */"./resources/js/app_1.js");
 
 
 /***/ })

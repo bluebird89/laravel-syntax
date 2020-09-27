@@ -36,6 +36,8 @@ class WelcomeMessage extends Command
      */
     public function handle()
     {
+        $this->info(env('DB_PASSWORD'));
+exit(-1);
         $name = $this->ask('你叫什么名字');
         $city = $this->choice('你来自哪个城市', [
             '北京', '杭州', '深圳'
