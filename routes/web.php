@@ -183,6 +183,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia\Inertia::render('Dashboard');
 })->name('dashboard');
 
+Route::view('/form', 'form');
+
 Route::fallback(function () {
     return '我是最后的屏障';
 });

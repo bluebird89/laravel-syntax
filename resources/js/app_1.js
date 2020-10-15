@@ -24,6 +24,8 @@ Vue.component('modal-component', require('./components/ModalComponent.vue').defa
 Vue.component('welcome-component', require('./components/WelcomeComponent.vue').default);
 Vue.component('fileupload-component', require('./components/FileUploadComponent.vue').default);
 Vue.component('pagination-component', require('./components/PaginationComponent.vue').default);
+Vue.component('form-component', require('./components/FormComponent.vue').default);
+Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -21,7 +21,6 @@ npm install
 npm run watch
 ```
 
-
 ## migrate
 
 ```
@@ -71,6 +70,11 @@ php artisan migrate
 发布公共资源
 php artisan telescope:publish
 ```
+
+## UI
+
+* app_1.js:为vue
+* app.js:jetbream
 
 ## 参考
 
