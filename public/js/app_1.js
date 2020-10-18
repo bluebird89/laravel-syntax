@@ -1989,18 +1989,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
+//
 //
 //
 //
@@ -2050,50 +2039,21 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   name: "FormComponent.vue",
   data: function data() {
     return {
-      article: {
-        title: "",
-        author: "",
-        content: ""
-      },
-      errors: {
-        title: "",
-        author: "",
-        content: ""
-      },
-      published: false
+      form: new Form({
+        title: '',
+        author: '',
+        body: ''
+      })
     };
   },
   methods: {
     store: function store() {
-      var _this = this;
-
-      // 先清理错误消息
-      Object.entries(this.errors).forEach(function (error) {
-        var _error = _slicedToArray(error, 2),
-            key = _error[0],
-            msg = _error[1];
-
-        _this.errors[key] = "";
-      });
-      axios.post("/post", this.article).then(function (response) {
-        // 请求处理成功
-        _this.published = true;
-        console.log(response.data);
-      })["catch"](function (error) {
-        // 请求验证失败
-        // 获取验证错误包
-        var errorBag = error.response.data; // 错误包中每个字段的错误信息可能有多个
-
-        Object.entries(errorBag.errors).forEach(function (bag) {
-          var _bag = _slicedToArray(bag, 2),
-              field = _bag[0],
-              errors = _bag[1];
-
-          if (errors.length > 0) {
-            _this.errors[field] = errors.join('<br>');
-          }
-        });
-      });
+      this.form.post('/post').then(function (data) {
+        return console.log(data);
+      }) // 自定义表单提交成功处理逻辑
+      ["catch"](function (data) {
+        return console.log(data);
+      }); // 自定义表单提交失败处理逻辑
     }
   }
 });
@@ -38890,6 +38850,9 @@ var render = function() {
           submit: function($event) {
             $event.preventDefault()
             return _vm.store($event)
+          },
+          keyup: function($event) {
+            return _vm.form.errors.clear($event.target.name)
           }
         }
       },
@@ -38902,20 +38865,20 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.article.title,
-                expression: "article.title"
+                value: _vm.form.title,
+                expression: "form.title"
               }
             ],
             ref: "title",
             staticClass: "form-control",
-            attrs: { type: "text", id: "title" },
-            domProps: { value: _vm.article.title },
+            attrs: { type: "text", id: "title", name: "title" },
+            domProps: { value: _vm.form.title },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.article, "title", $event.target.value)
+                _vm.$set(_vm.form, "title", $event.target.value)
               }
             }
           }),
@@ -38927,8 +38890,8 @@ var render = function() {
                 {
                   name: "show",
                   rawName: "v-show",
-                  value: _vm.errors.title,
-                  expression: "errors.title"
+                  value: _vm.form.errors.get("title"),
+                  expression: "form.errors.get('title')"
                 }
               ],
               staticClass: "alert alert-danger",
@@ -38937,7 +38900,7 @@ var render = function() {
             [
               _vm._v(
                 "\n                " +
-                  _vm._s(_vm.errors.title) +
+                  _vm._s(_vm.form.errors.get("title")) +
                   "\n            "
               )
             ]
@@ -38952,20 +38915,20 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.article.author,
-                expression: "article.author"
+                value: _vm.form.author,
+                expression: "form.author"
               }
             ],
             ref: "author",
             staticClass: "form-control",
-            attrs: { type: "text", id: "author" },
-            domProps: { value: _vm.article.author },
+            attrs: { type: "text", id: "author", name: "author" },
+            domProps: { value: _vm.form.author },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.article, "author", $event.target.value)
+                _vm.$set(_vm.form, "author", $event.target.value)
               }
             }
           }),
@@ -38977,8 +38940,8 @@ var render = function() {
                 {
                   name: "show",
                   rawName: "v-show",
-                  value: _vm.errors.author,
-                  expression: "errors.author"
+                  value: _vm.form.errors.get("author"),
+                  expression: "form.errors.get('author')"
                 }
               ],
               staticClass: "alert alert-danger",
@@ -38987,7 +38950,7 @@ var render = function() {
             [
               _vm._v(
                 "\n                " +
-                  _vm._s(_vm.errors.author) +
+                  _vm._s(_vm.form.errors.get("author")) +
                   "\n            "
               )
             ]
@@ -39002,20 +38965,20 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.article.content,
-                expression: "article.content"
+                value: _vm.form.body,
+                expression: "form.body"
               }
             ],
-            ref: "content",
+            ref: "body",
             staticClass: "form-control",
-            attrs: { id: "content", rows: "5" },
-            domProps: { value: _vm.article.content },
+            attrs: { id: "body", name: "body", rows: "5" },
+            domProps: { value: _vm.form.body },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.article, "content", $event.target.value)
+                _vm.$set(_vm.form, "body", $event.target.value)
               }
             }
           }),
@@ -39027,8 +38990,8 @@ var render = function() {
                 {
                   name: "show",
                   rawName: "v-show",
-                  value: _vm.errors.content,
-                  expression: "errors.content"
+                  value: _vm.form.errors.get("body"),
+                  expression: "form.errors.get('body')"
                 }
               ],
               staticClass: "alert alert-danger",
@@ -39037,7 +39000,7 @@ var render = function() {
             [
               _vm._v(
                 "\n                " +
-                  _vm._s(_vm.errors.content) +
+                  _vm._s(_vm.form.errors.get("body")) +
                   "\n            "
               )
             ]
@@ -39057,8 +39020,8 @@ var render = function() {
               {
                 name: "show",
                 rawName: "v-show",
-                value: _vm.published,
-                expression: "published"
+                value: _vm.form.success,
+                expression: "form.success"
               }
             ],
             staticClass: "alert alert-success",
@@ -51644,6 +51607,7 @@ module.exports = function(module) {
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+window.Form = __webpack_require__(/*! ./form */ "./resources/js/form.js")["default"];
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -52313,6 +52277,180 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WelcomeComponent_vue_vue_type_template_id_1974e6b4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/form.js":
+/*!******************************!*\
+  !*** ./resources/js/form.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Form = /*#__PURE__*/function () {
+  function Form(data) {
+    _classCallCheck(this, Form);
+
+    this.originData = data;
+
+    for (var field in data) {
+      this[field] = data[field];
+    }
+
+    this.errors = new Errors();
+    this.success = false;
+  }
+  /**
+   * 返回表单数据
+   *
+   * @returns {{}}
+   */
+
+
+  _createClass(Form, [{
+    key: "data",
+    value: function data() {
+      var data = {};
+
+      for (var field in this.originData) {
+        data[field] = this[field];
+      }
+
+      return data;
+    }
+    /**
+     * 清空表单数据
+     */
+
+  }, {
+    key: "reset",
+    value: function reset() {
+      for (var field in this.originData) {
+        delete this[field];
+      }
+
+      this.errors.clear();
+    }
+    /**
+     * 发送 POST 请求
+     *
+     * @param url
+     * @returns {Promise<unknown>}
+     */
+
+  }, {
+    key: "post",
+    value: function post(url) {
+      return this.submit(url, 'post');
+    }
+    /**
+     * 发送 PUT 请求
+     *
+     * @param url
+     * @returns {Promise<unknown>}
+     */
+
+  }, {
+    key: "put",
+    value: function put(url) {
+      return this.submit(url, 'put');
+    }
+    /**
+     * 表单提交处理
+     *
+     * @param {string} url
+     * @param {string} method
+     */
+
+  }, {
+    key: "submit",
+    value: function submit(url, method) {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        axios[method](url, _this.data()).then(function (response) {
+          _this.onSuccess(response.data);
+
+          _this.success = true;
+          resolve(response.data);
+        })["catch"](function (error) {
+          _this.onFail(error.response.data.errors);
+
+          reject(error.response.data);
+        });
+      });
+    }
+    /**
+     * 处理表单提交成功
+     *
+     * @param {object} data
+     */
+
+  }, {
+    key: "onSuccess",
+    value: function onSuccess(data) {
+      console.log(data);
+      this.reset();
+    }
+    /**
+     * 处理表单提交失败
+     *
+     * @param {object} errors
+     */
+
+  }, {
+    key: "onFail",
+    value: function onFail(errors) {
+      this.errors.set(errors);
+    }
+  }]);
+
+  return Form;
+}();
+
+var Errors = /*#__PURE__*/function () {
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+
+  _createClass(Errors, [{
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+  }, {
+    key: "clear",
+    value: function clear(field) {
+      if (field) {
+        delete this.errors[field];
+        return;
+      }
+
+      this.errors = {};
+    }
+  }, {
+    key: "set",
+    value: function set(errors) {
+      this.errors = errors;
+    }
+  }]);
+
+  return Errors;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Form);
 
 /***/ }),
 

@@ -51,6 +51,7 @@ class PostController extends Controller
         $instance  =new Post();
         $instance->title = $request->input('title');
         $instance->url = $request->input('author');
+        $instance->content = $request->input('body');
         $instance->save();
     }
 
