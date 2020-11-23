@@ -28,12 +28,6 @@ Route::get('welcome', function () {
     return view('welcome');
 });
 
-//  version < 8
-//Route::get('/user', 'UsersController@index');
-// version 8
-Route::get('/user', [UserController::class, 'index']);
-Route::get('user/{user}', [UserController::class, 'show']);
-
 # method
 //Route::get($uri, $callback);
 //Route::post($uri, $callback);
@@ -42,7 +36,7 @@ Route::get('user/{user}', [UserController::class, 'show']);
 //Route::delete($uri, $callback);
 //Route::options($uri, $callback);
 Route::match(['get', 'post'], '/', function () {
-    //
+    return 'hello';
 });
 Route::any('foo', function () {
     //
@@ -52,13 +46,42 @@ Route::any('foo', function () {
 //Route::get('user/{id}', function ($id) {
 //    return 'User ' . $id;
 //});
+//  version < 8
+//Route::get('/user', 'UsersController@index');
+// version 8
+//Route::get('/user', [UserController::class, 'index']);
+Route::get('/user', function () {
+    $user = \App\Models\User::where('name', 'bluebird89')->first();
+    return view('welcome', ['user' => $user]);
+});
+Route::get('user/{user}', [UserController::class, 'show']);
+
 Route::get('user/{id}', [UserController::class, 'show'])->where('id', '[0-9]+');
-Route::get('page/{id}/{slug}', function ($id, $slug) {
-    return $id.':'.$slug;
-})->where(['id' => '[0-9]+', 'slug' => '[A-Za-z]+']);
+
 Route::get('user/{name?}', function ($name = 'John') {
     return $name;
 })->where('name', '[A-Za-z]+');
+
+Route::get('user/{user}', \App\Http\Controllers\ShowProfile::class);
+
+// 隐式模型绑定
+Route::get('api/users/{user}', function (User $user) {
+    return $user->email;
+});
+Route::get('api/users/{user}/posts/{post:slug}', function (User $user, Post $post) {
+    return $post;
+});
+Route::get('user/profile', function () {
+    return 'my url: '.route('profile');
+})->name('profile');
+## 路由命名 <a href="{{ route('user.profile', ['id' => 100]) }}">  // 输出：http://blog.test/user/100
+Route::get('user/profile', [UserController::class, 'profile'])->name('user.profile');
+
+Route::middleware('throttle:60,1')->group(function () {
+    Route::get('/user', function () {
+        //
+    });
+});
 
 Route::redirect('/here', '/there', 301);
 
@@ -72,14 +95,6 @@ Route::view('layout/blade', 'child_blade', [
 Route::get('task/{id}', function ($id) {
     $task = \App\Models\Task::findOrFail($id);
 });
-// 隐式绑定
-Route::get('api/users/{user}/posts/{post:slug}', function (User $user, Post $post) {
-    return $post;
-});
-
-## 路由命名 <a href="{{ route('user.profile', ['id' => 100]) }}">  // 输出：http://blog.test/user/100
-Route::get('user/profile', [UserController::class, 'profile'])->name('user.profile');
-
 # Group + middleware
 //Route::middleware(['first', 'second'])->group(function () {
 //    Route::get('/', function () {
@@ -106,16 +121,6 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-Route::get('user/{user}', \App\Http\Controllers\ShowProfile::class);
-
-// 隐式模型绑定
-Route::get('api/users/{user}', function (User $user) {
-    return $user->email;
-});
-
-Route::get('user/profile', function () {
-    return 'my url: '.route('profile');
-})->name('profile');
 Route::get('redirect', function () {
     return redirect()->route('profile');
 });
@@ -130,12 +135,6 @@ Route::resource('posts', \App\Http\Controllers\PostController::class, [
     , 'except' =>
         ['create', 'store', 'update', 'destroy']
 ]);
-
-Route::middleware('throttle:60,1')->group(function () {
-    Route::get('/user', function () {
-        //
-    });
-});
 
 Route::get('/task', [TaskController::class, 'index']);
 Route::get('task/create', [TaskController::class, 'reate']);
@@ -162,6 +161,10 @@ Route::get('test_artisan', function () {
     ]);
 });
 
+
+Route::get('page/{id}/{slug}', function ($id, $slug) {
+    return $id.':'.$slug;
+})->where(['id' => '[0-9]+', 'slug' => '[A-Za-z]+']);
 
 Route::group(['middleware' => config('jetstream.middleware', ['web'])], function () {
     Route::group(['middleware' => ['auth', 'verified']], function () {
