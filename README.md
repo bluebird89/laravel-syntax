@@ -23,11 +23,16 @@ npm run watch
 
 ## migrate
 
-```
+```sh
 php artisan migrate
 php artisan make:seeder UsersTableSeeder # DatabaseSeeder  call
 
 php artisan db:seed
+php artisan db:seed --class=UsersTableSeeder
+php artisan db:seed --force
+
+php artisan make:migration alter_users_add_name_index --table=users
+php artisan migrate:fresh --seed
 ```
 
 ## controller 
